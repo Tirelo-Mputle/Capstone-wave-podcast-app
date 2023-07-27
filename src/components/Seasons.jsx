@@ -1,16 +1,40 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import Episode from './Episode';
+import { setCurrentSeason } from '../globalState/reducers/podcastsReducer';
 
 const Seasons = () => {
-  const { currentPodcast, isLoading } = useSelector(
+  const { currentSeason, currentPodcast } = useSelector(
     (state) => state.podcastsReducer
   );
+  const dispatch = useDispatch();
+  const seasons = currentPodcast.seasons;
+  //   const episodes = currentPodcast.sea
+  console.log(seasons);
   return (
     <div>
       <p>Seasons</p>
-      <select name="seasons" id="seasons">
-        <option value="1">season 1</option>
+      <select
+        name="seasons"
+        id="seasons"
+        value={currentSeason}
+        onChange={(e) => {
+          console.log(e.target);
+          dispatch(setCurrentSeason(e.target.value));
+        }}
+      >
+        {seasons
+          .map((singleSeason, index) => {
+            return (
+              <option key={index} value={singleSeason.season}>
+                season {singleSeason.season}
+              </option>
+            );
+          })
+          .reverse()}
       </select>
+      <p>Episodes</p>
+      <Episode />
     </div>
   );
 };

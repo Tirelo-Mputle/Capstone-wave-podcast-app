@@ -1,4 +1,5 @@
 import HomePodcast from './HomePodcast';
 import Seasons from './Seasons';
+import Episode from './Episode';
 
-export { HomePodcast };
+export { HomePodcast, Seasons, Episode };

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setCurrentPodcast,
   setIsLoading,
+  setCurrentSeason,
 } from '../globalState/reducers/podcastsReducer';
 
 const PodcastContainer = styled.div`
@@ -33,6 +34,7 @@ const HomePodcast = ({ item }) => {
       if (result) {
         console.log(result);
         dispatch(setCurrentPodcast(result));
+        dispatch(setCurrentSeason(result.seasons.length));
         dispatch(setIsLoading(false));
         return result;
       }

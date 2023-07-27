@@ -4,7 +4,7 @@ const podcastsSlice = createSlice({
   initialState: {
     allPodcasts: [],
     isLoading: false,
-
+    currentSeason: null,
     currentPodcast: null,
   },
   reducers: {
@@ -17,9 +17,16 @@ const podcastsSlice = createSlice({
     setCurrentPodcast: (state, action) => {
       return { ...state, currentPodcast: action.payload };
     },
+    setCurrentSeason: (state, action) => {
+      return { ...state, currentSeason: action.payload };
+    },
   },
 });
 
-export const { setAllPodcasts, setIsLoading, setCurrentPodcast } =
-  podcastsSlice.actions;
+export const {
+  setAllPodcasts,
+  setIsLoading,
+  setCurrentPodcast,
+  setCurrentSeason,
+} = podcastsSlice.actions;
 export const podcastsReducer = podcastsSlice.reducer;
