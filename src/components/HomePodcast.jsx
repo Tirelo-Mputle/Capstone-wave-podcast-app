@@ -9,16 +9,23 @@ import {
 } from '../globalState/reducers/podcastsReducer';
 
 const PodcastContainer = styled.div`
-  width: 6rem;
+  width: 8.5rem;
+  margin-bottom: 2rem;
+  background-color: #181818;
+  color: #fff;
 `;
 const Image = styled.img`
   width: 5rem;
   border-radius: 0.25rem;
+  margin: 0 20%;
 `;
 const Title = styled.p`
   font-weight: 600;
+  font-size: 0.85rem;
 `;
-
+const Description = styled.p`
+  font-size: 0.7rem;
+`;
 const HomePodcast = ({ item }) => {
   const { isLoading } = useSelector((state) => state.podcastsReducer);
   const { description, image, id: podcastId, title } = item;
@@ -32,7 +39,6 @@ const HomePodcast = ({ item }) => {
       );
       const result = await response.json();
       if (result) {
-        console.log(result);
         dispatch(setCurrentPodcast(result));
         dispatch(setCurrentSeason(result.seasons.length));
         dispatch(setIsLoading(false));
@@ -43,11 +49,15 @@ const HomePodcast = ({ item }) => {
     }
   };
   return (
-    <Link to={`/podcast/${podcastId}`} onClick={() => getSinglePodcast()}>
+    <Link
+      to={`/podcast/${podcastId}`}
+      onClick={() => getSinglePodcast()}
+      className="link"
+    >
       <PodcastContainer>
         <Image src={image} alt={`${title}`} />
         <Title>{title}</Title>
-        <p>{description.substring(0, 50)}...</p>
+        <Description>{description.substring(0, 50)}...</Description>
       </PodcastContainer>
     </Link>
   );

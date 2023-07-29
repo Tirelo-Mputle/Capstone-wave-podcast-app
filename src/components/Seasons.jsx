@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Episode from './Episode';
+import AllEpisodesPerSeason from './AllEpisodesPerSeason';
 import { setCurrentSeason } from '../globalState/reducers/podcastsReducer';
 
 const Seasons = () => {
@@ -9,8 +9,9 @@ const Seasons = () => {
   );
   const dispatch = useDispatch();
   const seasons = currentPodcast.seasons;
-  //   const episodes = currentPodcast.sea
-  console.log(seasons);
+
+  const currentSeasonEpisodes = seasons[currentSeason - 1].episodes;
+  console.log(currentSeasonEpisodes);
   return (
     <div>
       <p>Seasons</p>
@@ -19,7 +20,6 @@ const Seasons = () => {
         id="seasons"
         value={currentSeason}
         onChange={(e) => {
-          console.log(e.target);
           dispatch(setCurrentSeason(e.target.value));
         }}
       >
@@ -34,7 +34,7 @@ const Seasons = () => {
           .reverse()}
       </select>
       <p>Episodes</p>
-      <Episode />
+      <AllEpisodesPerSeason currentSeasonEpisodes={currentSeasonEpisodes} />
     </div>
   );
 };

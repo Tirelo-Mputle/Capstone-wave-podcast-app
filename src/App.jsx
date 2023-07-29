@@ -9,11 +9,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setAllPodcasts,
   setIsLoading,
-  setCurrentPodcast,
+  setHomePageDisplayedPodcasts,
 } from './globalState/reducers/podcastsReducer';
 import { podcastsReducer } from './globalState/reducers/podcastsReducer';
 function App() {
-  const { currentPodcast } = useSelector((state) => state.podcastsReducer);
+  const { homePageDisplayedPodcasts } = useSelector(
+    (state) => state.podcastsReducer
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,8 +24,10 @@ function App() {
       const response = await fetch('https://podcast-api.netlify.app/shows');
       const result = await response.json();
 
-      dispatch(setAllPodcasts(result));
       if (result) {
+        dispatch(setHomePageDisplayedPodcasts(result));
+        dispatch(setAllPodcasts(result));
+        console.log(homePageDisplayedPodcasts);
         dispatch(setIsLoading(false));
       } else {
         console.log('error');
