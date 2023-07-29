@@ -48,23 +48,39 @@ const Home = () => {
   const backToHome = () => {
     dispatch(setHomePageDisplayedPodcasts(allPodcasts));
   };
-  const sortAlphabetically = (podcastArray) => {
+
+  const sortAlphabetically = (e, podcastArray) => {
+    const value = e.target.value;
     const lowercase = podcastArray.map((item) => {
       return { ...item, title: item.title.toLowerCase() };
     });
-    const sortedLowercase = lowercase.sort((a, b) => {
-      if (sorting === 'descending') {
-        dispatch(setSorting('ascending'));
-        return a.title > b.title ? 1 : -1;
-      }
-      if (sorting === 'ascending') {
-        dispatch(setSorting('descending'));
+
+    let sortedLowercase = lowercase.sort((a, b) => {
+      if (value === 'ZA') {
+        dispatch(setSorting('ZA'));
         return a.title > b.title ? -1 : 1;
       }
+      if (value === 'AZ') {
+        dispatch(setSorting('AZ'));
+        return a.title > b.title ? 1 : -1;
+      }
+      if (value === 'ascendingDate') {
+        dispatch(setSorting('ascendingDate'));
+        return a.updated > b.updated ? 1 : -1;
+      }
+      if (value === 'decendingDate') {
+        dispatch(setSorting('decendingDate'));
+        return a.updated > b.updated ? -1 : 1;
+      }
     });
+    if (value === 'unsorted') {
+      dispatch(setSorting('unsorted'));
+      sortedLowercase = allPodcasts;
+    }
     dispatch(setHomePageDisplayedPodcasts(sortedLowercase));
     return sortedLowercase;
   };
+  const searchPodcasts = () => {};
   return (
     <Main>
       <MainRight>
@@ -77,18 +93,25 @@ const Home = () => {
               <AiOutlineSearch className="icon-color" />
             </p>
             <p>
-              {sorting === 'descending' ? (
-                <FcAlphabeticalSortingAz
-                  className="icon-color"
-                  onClick={() => sortAlphabetically(allPodcasts)}
-                />
-              ) : (
-                <FcAlphabeticalSortingZa
-                  className="icon-color"
-                  onClick={() => sortAlphabetically(allPodcasts)}
-                />
-              )}
+              <select
+                name="sorting"
+                id="sorting"
+                value={sorting}
+                onChange={(e) =>
+                  sortAlphabetically(e, homePageDisplayedPodcasts)
+                }
+              >
+                <option value="unsorted"> -- unsorted --</option>
+                <option value="AZ">a-z</option>
+                <option value="ZA">z-a</option>
+                <option value="decendingDate">newest-oldest</option>
+                <option value="ascendingDate">oldest-newest</option>
+              </select>
             </p>
+            <form action="">
+              <input type="text" name="search" id="search" />
+              <button type="submit">search</button>
+            </form>
           </Menu>
           <LogInButtons>
             <Link to="/signup">

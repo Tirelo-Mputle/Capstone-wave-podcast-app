@@ -7,7 +7,8 @@ const podcastsSlice = createSlice({
     currentSeason: null,
     currentPodcast: null,
     homePageDisplayedPodcasts: [],
-    sorting: 'descending',
+    sorting: 'unsorted',
+    searchInput: '',
   },
   reducers: {
     setAllPodcasts: (state, action) => {
@@ -28,6 +29,9 @@ const podcastsSlice = createSlice({
     setSorting: (state, action) => {
       return { ...state, sorting: action.payload };
     },
+    setSearchInput: (state, action) => {
+      return { ...state, searchInput: action.payload };
+    },
   },
 });
 
@@ -38,5 +42,6 @@ export const {
   setCurrentSeason,
   setHomePageDisplayedPodcasts,
   setSorting,
+  setSearchInput,
 } = podcastsSlice.actions;
 export const podcastsReducer = podcastsSlice.reducer;

@@ -27,7 +27,7 @@ function App() {
       if (result) {
         dispatch(setHomePageDisplayedPodcasts(result));
         dispatch(setAllPodcasts(result));
-        console.log(homePageDisplayedPodcasts);
+
         dispatch(setIsLoading(false));
       } else {
         console.log('error');
