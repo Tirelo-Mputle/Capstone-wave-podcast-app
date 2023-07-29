@@ -13,6 +13,7 @@ import {
 import {
   setHomePageDisplayedPodcasts,
   setSorting,
+  setSearchInput,
 } from '../globalState/reducers/podcastsReducer';
 const Main = styled.main`
   display: flex;
@@ -42,8 +43,13 @@ const SpecificGenre = styled.div`
   background-color: orange;
 `;
 const Home = () => {
-  const { allPodcasts, isLoading, homePageDisplayedPodcasts, sorting } =
-    useSelector((state) => state.podcastsReducer);
+  const {
+    allPodcasts,
+    searchInput,
+    isLoading,
+    homePageDisplayedPodcasts,
+    sorting,
+  } = useSelector((state) => state.podcastsReducer);
   const dispatch = useDispatch();
   const backToHome = () => {
     dispatch(setHomePageDisplayedPodcasts(allPodcasts));
@@ -80,7 +86,16 @@ const Home = () => {
     dispatch(setHomePageDisplayedPodcasts(sortedLowercase));
     return sortedLowercase;
   };
-  const searchPodcasts = () => {};
+  const searchPodcasts = (e) => {
+    e.preventDefault();
+    const value = e.target.value.toLowerCase();
+    console.log(value);
+    dispatch(setSearchInput(value));
+    const filteredPodcasts = allPodcasts.filter((item) => {
+      return item.title.toLowerCase().includes(value);
+    });
+    dispatch(setHomePageDisplayedPodcasts(filteredPodcasts));
+  };
   return (
     <Main>
       <MainRight>
@@ -108,9 +123,15 @@ const Home = () => {
                 <option value="ascendingDate">oldest-newest</option>
               </select>
             </p>
-            <form action="">
-              <input type="text" name="search" id="search" />
-              <button type="submit">search</button>
+            <form action="" onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="text"
+                name="searchInput"
+                id="search"
+                onChange={(e) => searchPodcasts(e)}
+                value={searchInput}
+                placeholder="Search"
+              />
             </form>
           </Menu>
           <LogInButtons>
