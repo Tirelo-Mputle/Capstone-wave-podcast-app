@@ -10,6 +10,9 @@ const podcastsSlice = createSlice({
     sorting: 'unsorted',
     searchInput: '',
     userData: { userName: '', userEmail: '', userPassword: '' },
+    userDataDB: null,
+    hasAccount: false,
+    isLoggedIn: false,
   },
   reducers: {
     setAllPodcasts: (state, action) => {
@@ -40,6 +43,23 @@ const podcastsSlice = createSlice({
     resetUserDataForm: (state, action) => {
       return { ...state, userData: action.payload };
     },
+    setUserDataFromDB: (state, action) => {
+      const { userName, userEmail, userPassword } = action.payload[0];
+
+      return { ...state, userDataDB: { userName, userEmail, userPassword } };
+    },
+    setHasAccount: (state, action) => {
+      return {
+        ...state,
+        hasAccount: action.payload,
+      };
+    },
+    setIsLoggedIn: (state, action) => {
+      return {
+        ...state,
+        isLoggedIn: action.payload,
+      };
+    },
   },
 });
 
@@ -53,5 +73,8 @@ export const {
   setSearchInput,
   setUserData,
   resetUserDataForm,
+  setUserDataFromDB,
+  setHasAccount,
+  setIsLoggedIn,
 } = podcastsSlice.actions;
 export const podcastsReducer = podcastsSlice.reducer;

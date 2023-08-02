@@ -3,13 +3,15 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 // routes
 import { Home, Signup, SinglePodcast, Login } from './pages';
-
+import supabase from './supabase/client';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setAllPodcasts,
   setIsLoading,
   setHomePageDisplayedPodcasts,
+  setUserDataFromDB,
+  setHasAccount,
 } from './globalState/reducers/podcastsReducer';
 import { podcastsReducer } from './globalState/reducers/podcastsReducer';
 
@@ -36,6 +38,21 @@ function App() {
       return result;
     };
     getPodcasts();
+  }, []);
+
+  const fetchLoginData = async () => {
+    const { data, error } = await supabase.from('user_login_data').select();
+    if (error) {
+      console.log(error);
+    }
+    if (data.length !== 0) {
+      console.log(data);
+      dispatch(setUserDataFromDB(data));
+      dispatch(setHasAccount(true));
+    }
+  };
+  useEffect(() => {
+    fetchLoginData();
   }, []);
 
   return (

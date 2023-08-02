@@ -49,6 +49,7 @@ const Home = () => {
     isLoading,
     homePageDisplayedPodcasts,
     sorting,
+    isLoggedIn,
   } = useSelector((state) => state.podcastsReducer);
   const dispatch = useDispatch();
   const backToHome = () => {
@@ -135,11 +136,15 @@ const Home = () => {
             </form>
           </Menu>
           <LogInButtons>
-            <Link to="/signup">
-              <Buttons $backgroundColor={'red'}>Signup</Buttons>
-            </Link>
-            <Link to="/signup">
-              <Buttons $backgroundColor={'red'}>Login</Buttons>
+            {!isLoggedIn && (
+              <Link to="/signup">
+                <Buttons $backgroundColor={'red'}>Signup</Buttons>
+              </Link>
+            )}
+            <Link to="/login">
+              <Buttons $backgroundColor={'red'}>
+                {!isLoggedIn ? 'Login' : 'Logout'}
+              </Buttons>
             </Link>
           </LogInButtons>
         </Aside>

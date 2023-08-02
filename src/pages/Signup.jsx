@@ -1,11 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import {
   setUserData,
   resetUserDataForm,
+  setHasAccount,
+  setUserDataFromDB,
 } from '../globalState/reducers/podcastsReducer';
-import { useEffect, useState } from 'react';
+
 import supabase from '../supabase/client';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,7 +17,7 @@ const SignupPage = styled.section`
   min-height: 100vh;
 `;
 
-const SignupContainer = styled.form`
+const SignupContainer = styled.div`
   width: 80vw;
   margin: 0 auto;
   text-align: center;
@@ -24,14 +26,14 @@ const SignupContainer = styled.form`
 const SignupForm = styled.form`
   margin-top: 2rem;
 `;
-const FormFieldContainer = styled.div`
+export const FormFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 1.5rem;
   gap: 0.5rem;
 `;
-const FormInput = styled.input`
+export const FormInput = styled.input`
   min-width: 100%;
   height: 2rem;
 
@@ -39,7 +41,7 @@ const FormInput = styled.input`
   border-radius: 0.25rem;
   padding: 1.2rem 0.7rem;
 `;
-const FormLabel = styled.label`
+export const FormLabel = styled.label`
   font-weight: 600;
   font-size: 0.9rem;
 `;
@@ -49,44 +51,51 @@ const NameParagraph = styled.p`
 `;
 
 const Signup = () => {
-  const { userData } = useSelector((state) => state.podcastsReducer);
+  const [isError, setIsError] = useState(false);
+
+  const { userData, userDataDB, hasAccount } = useSelector(
+    (state) => state.podcastsReducer
+  );
   const { userEmail, userName, userPassword } = userData;
   const dispatch = useDispatch();
-
-  const fetchLoginData = async () => {
-    const { data, error } = await supabase.from('user_login_data').select();
-    if (error) {
-      console.log(error);
-    }
-    if (data) {
-      console.log('Login data', data);
-    }
-  };
-  useEffect(() => {
-    fetchLoginData();
-  }, []);
+  const navigate = useNavigate();
 
   const createUser = async (e) => {
     e.preventDefault();
     console.log('running createUser');
-    const { data, error } = await supabase
-      .from('user_login_data')
-      .insert([{ userName, userEmail, userPassword }])
-      .select();
-    if (!userName || !userEmail || !userPassword) {
-      alert('please fill in all the form details');
+    if (
+      userDataDB !== null
+      // (
+      //   userData.userName === userDataDB.userName &&
+      //   userData.userEmail === userDataDB.userEmail &&
+      //   userData.userPassword === userDataDB.userPassword
+      // )
+    ) {
+      setIsError(true);
+      dispatch(setHasAccount(true));
       return;
     }
-    if (error) {
-      console.log(error);
-      return;
-    }
+    if (hasAccount === false) {
+      const { data, error } = await supabase
+        .from('user_login_data')
+        .insert([{ userName, userEmail, userPassword }])
+        .select();
+      if (error) {
+        console.log(error);
+        return;
+      }
+      if (data) {
+        dispatch(setHasAccount(true));
+        dispatch(setUserDataFromDB(data));
+        navigate('/login');
+      }
 
-    //reset the form field
-    dispatch(
-      resetUserDataForm({ userName: '', userEmail: '', userPassword: '' })
-    );
-    console.log(data);
+      //reset the form field
+      dispatch(
+        resetUserDataForm({ userName: '', userEmail: '', userPassword: '' })
+      );
+      console.log(data);
+    }
 
     //update the posts UI -> display the new post in the posts
     // fetchLoginData();
@@ -149,6 +158,7 @@ const Signup = () => {
 
           <button>Sign up</button>
         </SignupForm>
+        {isError && <p>You already have an account with us. Please log in</p>}
         <p>
           Have an account? <Link to="/login">Log in</Link>
         </p>
