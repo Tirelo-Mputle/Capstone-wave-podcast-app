@@ -9,6 +9,7 @@ const podcastsSlice = createSlice({
     homePageDisplayedPodcasts: [],
     sorting: 'unsorted',
     searchInput: '',
+    userData: { userName: '', userEmail: '', userPassword: '' },
   },
   reducers: {
     setAllPodcasts: (state, action) => {
@@ -32,6 +33,13 @@ const podcastsSlice = createSlice({
     setSearchInput: (state, action) => {
       return { ...state, searchInput: action.payload };
     },
+    setUserData: (state, action) => {
+      const { name, value } = action.payload;
+      return { ...state, userData: { ...state.userData, [name]: value } };
+    },
+    resetUserDataForm: (state, action) => {
+      return { ...state, userData: action.payload };
+    },
   },
 });
 
@@ -43,5 +51,7 @@ export const {
   setHomePageDisplayedPodcasts,
   setSorting,
   setSearchInput,
+  setUserData,
+  resetUserDataForm,
 } = podcastsSlice.actions;
 export const podcastsReducer = podcastsSlice.reducer;

@@ -2,7 +2,7 @@ import './App.css';
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 // routes
-import { Home, Signup, SinglePodcast } from './pages';
+import { Home, Signup, SinglePodcast, Login } from './pages';
 
 // redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import {
   setHomePageDisplayedPodcasts,
 } from './globalState/reducers/podcastsReducer';
 import { podcastsReducer } from './globalState/reducers/podcastsReducer';
+
 function App() {
   const { homePageDisplayedPodcasts } = useSelector(
     (state) => state.podcastsReducer
@@ -43,6 +44,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/podcast/:id" element={<SinglePodcast />} />
         </Routes>
       </BrowserRouter>
