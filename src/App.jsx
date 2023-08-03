@@ -12,13 +12,15 @@ import {
   setHomePageDisplayedPodcasts,
   setUserDataFromDB,
   setHasAccount,
+  setFavourites,
 } from './globalState/reducers/podcastsReducer';
 import { podcastsReducer } from './globalState/reducers/podcastsReducer';
 
 function App() {
-  const { homePageDisplayedPodcasts } = useSelector(
+  const { favourites, favouriteSwitch } = useSelector(
     (state) => state.podcastsReducer
   );
+  console.log(favouriteSwitch, favourites);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,7 +48,6 @@ function App() {
       console.log(error);
     }
     if (data.length !== 0) {
-      console.log(data);
       dispatch(setUserDataFromDB(data));
       dispatch(setHasAccount(true));
     }
@@ -54,6 +55,17 @@ function App() {
   useEffect(() => {
     fetchLoginData();
   }, []);
+
+  const fetchFavouritesFromDB = async () => {
+    console.log('fetching favourites');
+    const { data, error } = await supabase.from('userFavourites').select();
+    if (data) {
+      dispatch(setFavourites(data));
+    }
+  };
+  useEffect(() => {
+    fetchFavouritesFromDB();
+  }, [favouriteSwitch]);
 
   return (
     <>

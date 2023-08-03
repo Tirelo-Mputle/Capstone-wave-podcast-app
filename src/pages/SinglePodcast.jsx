@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { styled } from 'styled-components';
 import Seasons from '../components/Seasons';
+import { Link } from 'react-router-dom';
 const Header = styled.div`
   background-color: yellow;
 `;
@@ -24,6 +25,9 @@ const SinglePodcast = () => {
         <>
           <Header>
             <div>icons</div>
+            <Link to="/">
+              <button>Back to all shows</button>
+            </Link>
             <PodcastDetails>
               <Image src={currentPodcast.image} alt={currentPodcast.title} />
               <p>Podcast</p>

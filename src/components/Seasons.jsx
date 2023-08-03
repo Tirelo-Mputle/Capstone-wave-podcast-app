@@ -11,10 +11,13 @@ const Seasons = () => {
   const seasons = currentPodcast.seasons;
 
   const currentSeasonEpisodes = seasons[currentSeason - 1].episodes;
-  console.log(currentSeasonEpisodes);
+
   return (
     <div>
       <p>Seasons</p>
+      <p>
+        Season {currentSeason}/Episodes {currentSeasonEpisodes.length + 1}
+      </p>
       <select
         name="seasons"
         id="seasons"

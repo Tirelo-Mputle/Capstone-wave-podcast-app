@@ -13,6 +13,8 @@ const podcastsSlice = createSlice({
     userDataDB: null,
     hasAccount: false,
     isLoggedIn: false,
+    favourites: null,
+    favouriteSwitch: true,
   },
   reducers: {
     setAllPodcasts: (state, action) => {
@@ -60,6 +62,15 @@ const podcastsSlice = createSlice({
         isLoggedIn: action.payload,
       };
     },
+    setFavourites: (state, action) => {
+      return {
+        ...state,
+        favourites: action.payload,
+      };
+    },
+    setFavouriteSwitch: (state) => {
+      return { ...state, favouriteSwitch: !state.favouriteSwitch };
+    },
   },
 });
 
@@ -76,5 +87,7 @@ export const {
   setUserDataFromDB,
   setHasAccount,
   setIsLoggedIn,
+  setFavourites,
+  setFavouriteSwitch,
 } = podcastsSlice.actions;
 export const podcastsReducer = podcastsSlice.reducer;

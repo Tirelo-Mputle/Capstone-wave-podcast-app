@@ -27,10 +27,35 @@ const Description = styled.p`
   font-size: 0.7rem;
 `;
 const HomePodcast = ({ item }) => {
+  const genreNames = {
+    1: 'Personal Growth',
+    2: 'True Crime and Investigative Journalism',
+    3: 'History',
+    4: 'Comedy',
+    5: 'Entertainment',
+    6: 'Business',
+    7: 'Fiction',
+    8: 'News',
+    9: 'Kids and Family}',
+  };
   const { isLoading } = useSelector((state) => state.podcastsReducer);
-  const { description, image, id: podcastId, title } = item;
+  const {
+    description,
+    image,
+    id: podcastId,
+    title,
+    seasons,
+    updated,
+    genres,
+  } = item;
   const dispatch = useDispatch();
+  const lastUpdateDate = new Date(updated);
 
+  const day = lastUpdateDate.getDate();
+  const month = lastUpdateDate.getMonth();
+  const year = lastUpdateDate.getFullYear();
+
+  const date = `${day}/${month + 1}/${year}`;
   const getSinglePodcast = async () => {
     try {
       dispatch(setIsLoading(true));
@@ -48,6 +73,7 @@ const HomePodcast = ({ item }) => {
       console.log(error);
     }
   };
+
   return (
     <Link
       to={`/podcast/${podcastId}`}
@@ -57,6 +83,13 @@ const HomePodcast = ({ item }) => {
       <PodcastContainer>
         <Image src={image} alt={`${title}`} />
         <Title>{title}</Title>
+        <p>Seasons: {seasons}</p>
+        <p>Last update: {date}</p>
+        <div>
+          {genres.map((genre, index) => {
+            return <span key={index}>{genreNames[genre]}</span>;
+          })}
+        </div>
         <Description>{description.substring(0, 50)}...</Description>
       </PodcastContainer>
     </Link>
