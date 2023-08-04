@@ -2,4 +2,5 @@ import Home from './Home';
 import Signup from './Signup';
 import SinglePodcast from './SinglePodcast';
 import Login from './Login';
-export { Home, Signup, SinglePodcast, Login };
+import Favourites from './Favourites';
+export { Favourites, Home, Signup, SinglePodcast, Login };

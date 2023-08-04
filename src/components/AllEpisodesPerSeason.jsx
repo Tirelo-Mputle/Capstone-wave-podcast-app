@@ -5,7 +5,7 @@ const AllEpisodesPerSeason = ({ currentSeasonEpisodes }) => {
   const { currentPodcast, currentSeason } = useSelector(
     (state) => state.podcastsReducer
   );
-
+  console.log(currentPodcast);
   return (
     <div>
       <div>
@@ -14,6 +14,8 @@ const AllEpisodesPerSeason = ({ currentSeasonEpisodes }) => {
 
           return (
             <Episode
+              showTitle={currentPodcast.title}
+              image={currentPodcast.image}
               id={id}
               key={item.episode}
               item={item}

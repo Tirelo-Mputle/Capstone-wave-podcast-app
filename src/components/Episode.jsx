@@ -3,12 +3,38 @@ import { setFavouriteSwitch } from '../globalState/reducers/podcastsReducer';
 import { useSelector, useDispatch } from 'react-redux';
 import supabase from '../supabase/client';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-const Episode = ({ item, id, showId, currentSeason }) => {
+import { styled } from 'styled-components';
+const EpisodeContainer = styled.div`
+  background-color: #242424;
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border-radius: 0.25rem;
+`;
+const ImageDescriptionContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+`;
+const Description = styled.p`
+  font-size: 0.8rem;
+  margin: 0.7rem 0;
+`;
+const Image = styled.img`
+  width: 40%;
+`;
+const Episode = ({ item, id, showId, currentSeason, image, showTitle }) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const { favourites } = useSelector((state) => state.podcastsReducer);
   const { description, episode, file, title } = item;
   const dispatch = useDispatch();
-  const episodeWithId = { ...item, id, showId, currentSeason };
+  const episodeWithId = {
+    ...item,
+    id,
+    showId,
+    currentSeason,
+    image,
+    showTitle,
+  };
 
   const addToFavorites = async (ep) => {
     if (favourites !== null) {
@@ -36,23 +62,27 @@ const Episode = ({ item, id, showId, currentSeason }) => {
     dispatch(setFavouriteSwitch());
   };
   return (
-    <div>
-      <h4>{title}</h4>
-      <h5>Episode #{episode}</h5>
-      {isFavourite ? (
-        <button onClick={removeFromFavourites}>
-          Remove from favourites <AiFillHeart />
-        </button>
-      ) : (
-        <button onClick={() => addToFavorites(episodeWithId)}>
-          Add to favourites <AiOutlineHeart />
-        </button>
-      )}
-      <p>{description}</p>
+    <EpisodeContainer>
+      <h4>{`${episode}: ${title}`}</h4>
+      <ImageDescriptionContainer>
+        <Image src={image} alt={title} />
+        <div>
+          <Description>{description}</Description>
+          {isFavourite ? (
+            <button onClick={removeFromFavourites}>
+              Remove from favourites <AiFillHeart />
+            </button>
+          ) : (
+            <button onClick={() => addToFavorites(episodeWithId)}>
+              Add to favourites <AiOutlineHeart />
+            </button>
+          )}
+        </div>
+      </ImageDescriptionContainer>
       <audio controls>
         <source src={file} type="audio/mp3" />
       </audio>
-    </div>
+    </EpisodeContainer>
   );
 };
 

@@ -2,7 +2,7 @@ import './App.css';
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 // routes
-import { Home, Signup, SinglePodcast, Login } from './pages';
+import { Home, Signup, SinglePodcast, Login, Favourites } from './pages';
 import supabase from './supabase/client';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,13 +14,12 @@ import {
   setHasAccount,
   setFavourites,
 } from './globalState/reducers/podcastsReducer';
-import { podcastsReducer } from './globalState/reducers/podcastsReducer';
 
 function App() {
   const { favourites, favouriteSwitch } = useSelector(
     (state) => state.podcastsReducer
   );
-  console.log(favouriteSwitch, favourites);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,7 +56,6 @@ function App() {
   }, []);
 
   const fetchFavouritesFromDB = async () => {
-    console.log('fetching favourites');
     const { data, error } = await supabase.from('userFavourites').select();
     if (data) {
       dispatch(setFavourites(data));
@@ -75,6 +73,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/podcast/:id" element={<SinglePodcast />} />
+          <Route path="/favourites" element={<Favourites />} />
         </Routes>
       </BrowserRouter>
     </>

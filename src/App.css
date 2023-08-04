@@ -17,3 +17,6 @@ body {
 .link {
   text-decoration: none;
 }
+.bolder {
+  font-weight: 600;
+}

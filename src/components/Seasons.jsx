@@ -2,7 +2,19 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import AllEpisodesPerSeason from './AllEpisodesPerSeason';
 import { setCurrentSeason } from '../globalState/reducers/podcastsReducer';
+import { styled } from 'styled-components';
+const SeasonDetails = styled.p`
+  font-size: 0.7rem;
+  color: gray;
+  margin: 0.2rem 0;
+`;
 
+const Select = styled.select`
+  background-color: gray;
+  padding: 0.2rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+`;
 const Seasons = () => {
   const { currentSeason, currentPodcast } = useSelector(
     (state) => state.podcastsReducer
@@ -14,11 +26,11 @@ const Seasons = () => {
 
   return (
     <div>
-      <p>Seasons</p>
-      <p>
-        Season {currentSeason}/Episodes {currentSeasonEpisodes.length + 1}
-      </p>
-      <select
+      <p className="bolder">Seasons</p>
+      <SeasonDetails>
+        Season {currentSeason}/Episodes {currentSeasonEpisodes.length}
+      </SeasonDetails>
+      <Select
         name="seasons"
         id="seasons"
         value={currentSeason}
@@ -35,8 +47,8 @@ const Seasons = () => {
             );
           })
           .reverse()}
-      </select>
-      <p>Episodes</p>
+      </Select>
+      <p className="bolder">Episodes</p>
       <AllEpisodesPerSeason currentSeasonEpisodes={currentSeasonEpisodes} />
     </div>
   );

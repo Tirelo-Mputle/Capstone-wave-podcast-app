@@ -9,21 +9,39 @@ import {
 } from '../globalState/reducers/podcastsReducer';
 
 const PodcastContainer = styled.div`
-  width: 8.5rem;
+  flex-grow: 1;
+  width: 10rem;
   margin-bottom: 2rem;
   background-color: #181818;
+  display: flex;
+  justify-content: center;
+  border-radius: 0.5rem;
+`;
+const Podcast = styled.div`
   color: #fff;
+  width: 10rem;
 `;
 const Image = styled.img`
-  width: 5rem;
+  width: 100%;
   border-radius: 0.25rem;
-  margin: 0 20%;
 `;
 const Title = styled.p`
   font-weight: 600;
   font-size: 0.85rem;
+  margin-bottom: 0.2rem;
+`;
+const Details = styled.p`
+  font-size: 0.7rem;
+  color: gray;
 `;
 const Description = styled.p`
+  font-size: 0.7rem;
+  margin-bottom: 0.2rem;
+`;
+const Genre = styled.span`
+  margin-right: 1rem;
+`;
+const GenreContainer = styled.div`
   font-size: 0.7rem;
 `;
 const HomePodcast = ({ item }) => {
@@ -75,24 +93,29 @@ const HomePodcast = ({ item }) => {
   };
 
   return (
-    <Link
-      to={`/podcast/${podcastId}`}
-      onClick={() => getSinglePodcast()}
-      className="link"
-    >
-      <PodcastContainer>
-        <Image src={image} alt={`${title}`} />
-        <Title>{title}</Title>
-        <p>Seasons: {seasons}</p>
-        <p>Last update: {date}</p>
-        <div>
-          {genres.map((genre, index) => {
-            return <span key={index}>{genreNames[genre]}</span>;
-          })}
-        </div>
-        <Description>{description.substring(0, 50)}...</Description>
-      </PodcastContainer>
-    </Link>
+    <PodcastContainer>
+      <Link
+        to={`/podcast/${podcastId}`}
+        onClick={() => getSinglePodcast()}
+        className="link"
+      >
+        <Podcast>
+          <Image src={image} alt={`${title}`} />
+          <Title>{title}</Title>
+          <Description>{description.substring(0, 50)}...</Description>
+          <Details>Seasons: {seasons}</Details>
+          <Details>Last update: {date}</Details>
+          <GenreContainer>
+            Genres:
+            <Details>
+              {genres.map((genre, index) => {
+                return <Genre key={index}>{genreNames[genre]}</Genre>;
+              })}
+            </Details>
+          </GenreContainer>
+        </Podcast>
+      </Link>
+    </PodcastContainer>
   );
 };
 
