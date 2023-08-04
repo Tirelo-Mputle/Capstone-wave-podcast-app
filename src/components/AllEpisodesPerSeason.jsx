@@ -21,6 +21,7 @@ const AllEpisodesPerSeason = ({ currentSeasonEpisodes }) => {
               item={item}
               showId={currentPodcast.id}
               currentSeason={currentSeason}
+              updated={currentPodcast.updated}
             />
           );
         })}

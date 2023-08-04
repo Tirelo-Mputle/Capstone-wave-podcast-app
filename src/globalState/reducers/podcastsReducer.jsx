@@ -8,12 +8,15 @@ const podcastsSlice = createSlice({
     currentPodcast: null,
     homePageDisplayedPodcasts: [],
     sorting: 'unsorted',
+    favouritesSorting: 'unsorted',
+    favouritesDisplayPodcasts: [],
     searchInput: '',
     userData: { userName: '', userEmail: '', userPassword: '' },
     userDataDB: null,
     hasAccount: false,
     isLoggedIn: false,
     favourites: null,
+    sortSearchFavouritesArrayDisplay: null,
     favouriteSwitch: true,
   },
   reducers: {
@@ -29,11 +32,17 @@ const podcastsSlice = createSlice({
     setCurrentSeason: (state, action) => {
       return { ...state, currentSeason: action.payload };
     },
+    setFavouritesDisplayedPodcasts: (state, action) => {
+      return { ...state, favouritesDisplayPodcasts: action.payload };
+    },
     setHomePageDisplayedPodcasts: (state, action) => {
       return { ...state, homePageDisplayedPodcasts: action.payload };
     },
     setSorting: (state, action) => {
       return { ...state, sorting: action.payload };
+    },
+    setFavoritesSorting: (state, action) => {
+      return { ...state, favouritesSorting: action.payload };
     },
     setSearchInput: (state, action) => {
       return { ...state, searchInput: action.payload };
@@ -69,6 +78,9 @@ const podcastsSlice = createSlice({
     setFavouriteSwitch: (state) => {
       return { ...state, favouriteSwitch: !state.favouriteSwitch };
     },
+    setSortSearchFavouritesArray: (state, action) => {
+      return { ...state, sortSearchFavouritesArrayDisplay: action.payload };
+    },
   },
 });
 
@@ -87,5 +99,8 @@ export const {
   setIsLoggedIn,
   setFavourites,
   setFavouriteSwitch,
+  setSortSearchFavouritesArray,
+  setFavoritesSorting,
+  setFavouritesDisplayedPodcasts,
 } = podcastsSlice.actions;
 export const podcastsReducer = podcastsSlice.reducer;

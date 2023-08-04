@@ -2,7 +2,14 @@ import './App.css';
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 // routes
-import { Home, Signup, SinglePodcast, Login, Favourites } from './pages';
+import {
+  Home,
+  Signup,
+  SinglePodcast,
+  Login,
+  Favourites,
+  PageNotFound,
+} from './pages';
 import supabase from './supabase/client';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,6 +20,7 @@ import {
   setUserDataFromDB,
   setHasAccount,
   setFavourites,
+  setSortSearchFavouritesArray,
 } from './globalState/reducers/podcastsReducer';
 
 function App() {
@@ -74,6 +82,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/podcast/:id" element={<SinglePodcast />} />
           <Route path="/favourites" element={<Favourites />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </>

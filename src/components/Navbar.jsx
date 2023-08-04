@@ -11,7 +11,7 @@ import {
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
-  background-color: yellow;
+  background-color: #242424;
   padding: 0.5rem;
   gap: 1rem
   width: 95vw;
@@ -35,7 +35,8 @@ const Button = styled.button`
   font-size: 0.7rem;
 `;
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const { podcastArray, defaultArray, setDisplayAction } = props;
   const {
     allPodcasts,
     searchInput,
@@ -48,7 +49,7 @@ const Navbar = () => {
     dispatch(setHomePageDisplayedPodcasts(allPodcasts));
   };
 
-  const sortAlphabetically = (e, podcastArray) => {
+  const sortAlphabetically = (e) => {
     const value = e.target.value;
     const lowercase = podcastArray.map((item) => {
       return { ...item, title: item.title.toLowerCase() };
@@ -74,20 +75,22 @@ const Navbar = () => {
     });
     if (value === 'unsorted') {
       dispatch(setSorting('unsorted'));
-      sortedLowercase = allPodcasts;
+      // sortedLowercase = allPodcasts;
+      sortedLowercase = defaultArray;
     }
-    dispatch(setHomePageDisplayedPodcasts(sortedLowercase));
+    dispatch(setDisplayAction(sortedLowercase));
     return sortedLowercase;
   };
   const searchPodcasts = (e) => {
     e.preventDefault();
     const value = e.target.value.toLowerCase();
-    console.log(value);
+
     dispatch(setSearchInput(value));
-    const filteredPodcasts = allPodcasts.filter((item) => {
+    const filteredPodcasts = defaultArray.filter((item) => {
       return item.title.toLowerCase().includes(value);
     });
-    dispatch(setHomePageDisplayedPodcasts(filteredPodcasts));
+    // dispatch(setHomePageDisplayedPodcasts(filteredPodcasts));
+    dispatch(setDisplayAction(filteredPodcasts));
   };
   return (
     <Nav>
@@ -102,7 +105,7 @@ const Navbar = () => {
           name="sorting"
           id="sorting"
           value={sorting}
-          onChange={(e) => sortAlphabetically(e, homePageDisplayedPodcasts)}
+          onChange={(e) => sortAlphabetically(e)}
         >
           <option value="unsorted"> -- unsorted --</option>
           <option value="AZ">a-z</option>

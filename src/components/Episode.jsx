@@ -22,7 +22,15 @@ const Description = styled.p`
 const Image = styled.img`
   width: 40%;
 `;
-const Episode = ({ item, id, showId, currentSeason, image, showTitle }) => {
+const Episode = ({
+  item,
+  id,
+  showId,
+  currentSeason,
+  image,
+  showTitle,
+  updated,
+}) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const { favourites } = useSelector((state) => state.podcastsReducer);
   const { description, episode, file, title } = item;
@@ -34,6 +42,7 @@ const Episode = ({ item, id, showId, currentSeason, image, showTitle }) => {
     currentSeason,
     image,
     showTitle,
+    updated,
   };
 
   const addToFavorites = async (ep) => {

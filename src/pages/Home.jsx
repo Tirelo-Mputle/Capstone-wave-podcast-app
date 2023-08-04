@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { styled } from 'styled-components';
 import { HomePodcast, Navbar } from '../components';
+import { setHomePageDisplayedPodcasts } from '../globalState/reducers/podcastsReducer';
 
 const Main = styled.main`
   padding: 0.25rem 1rem;
@@ -16,12 +17,21 @@ const PodcastsContainer = styled.div`
 `;
 
 const Home = () => {
-  const { isLoading, homePageDisplayedPodcasts } = useSelector(
-    (state) => state.podcastsReducer
-  );
+  const {
+    allPodcasts,
+    searchInput,
+    homePageDisplayedPodcasts,
+    isLoading,
+    sorting,
+    isLoggedIn,
+  } = useSelector((state) => state.podcastsReducer);
   return (
     <>
-      <Navbar />
+      <Navbar
+        podcastArray={homePageDisplayedPodcasts}
+        defaultArray={allPodcasts}
+        setDisplayAction={setHomePageDisplayedPodcasts}
+      />
       <Main>
         {isLoading ? (
           <h1>Loading...</h1>
