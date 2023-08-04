@@ -15,6 +15,7 @@ const SignupPage = styled.section`
   background-color: #fff;
   min-width: 100vw;
   min-height: 100vh;
+  padding: 5rem 2rem;
 `;
 
 const SignupContainer = styled.div`
@@ -63,39 +64,22 @@ const Signup = () => {
   const createUser = async (e) => {
     e.preventDefault();
     console.log('running createUser');
-    if (
-      userDataDB !== null
-      // (
-      //   userData.userName === userDataDB.userName &&
-      //   userData.userEmail === userDataDB.userEmail &&
-      //   userData.userPassword === userDataDB.userPassword
-      // )
-    ) {
-      setIsError(true);
-      dispatch(setHasAccount(true));
+    const { data, error } = await supabase
+      .from('user_login_data')
+      .insert([{ userName, userEmail, userPassword }])
+      .select();
+    if (error) {
+      console.log(error);
       return;
     }
-    if (hasAccount === false) {
-      const { data, error } = await supabase
-        .from('user_login_data')
-        .insert([{ userName, userEmail, userPassword }])
-        .select();
-      if (error) {
-        console.log(error);
-        return;
-      }
-      if (data) {
-        dispatch(setHasAccount(true));
-        dispatch(setUserDataFromDB(data));
-        navigate('/login');
-      }
-
-      //reset the form field
-      dispatch(
-        resetUserDataForm({ userName: '', userEmail: '', userPassword: '' })
-      );
-      console.log(data);
+    if (data) {
+      navigate('/login');
     }
+
+    //reset the form field
+    dispatch(
+      resetUserDataForm({ userName: '', userEmail: '', userPassword: '' })
+    );
 
     //update the posts UI -> display the new post in the posts
     // fetchLoginData();

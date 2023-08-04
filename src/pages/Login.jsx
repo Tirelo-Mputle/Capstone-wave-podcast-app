@@ -10,6 +10,7 @@ const LoginContainer = styled.div`
   margin: 0 auto;
   text-align: center;
   color: #fff;
+  padding: 5rem 2rem;
 `;
 const LoginForm = styled.form`
   margin-top: 2rem;
@@ -43,20 +44,20 @@ const Login = () => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const checkIfSignedup = (e) => {
     e.preventDefault();
-    if (
-      userDataDB &&
-      userDataDB.userName === userName &&
-      userDataDB.userPassword === userPassword
-    ) {
-      console.log(userDataDB);
-      console.log('details match');
-      navigate('/');
-      dispatch(setIsLoggedIn(true));
-    } else {
-      setIsError(true);
-    }
+    userDataDB.map((user) => {
+      console.log(user);
+      console.log(user.userName, userName);
+      if (user.userName === userName && user.userPassword === userPassword) {
+        console.log('details match');
+        navigate('/');
+        dispatch(setIsLoggedIn(true));
+      } else {
+        setIsError(true);
+      }
+    });
   };
   return (
     <LoginContainer>

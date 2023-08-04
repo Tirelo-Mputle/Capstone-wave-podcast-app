@@ -46,9 +46,7 @@ const podcastsSlice = createSlice({
       return { ...state, userData: action.payload };
     },
     setUserDataFromDB: (state, action) => {
-      const { userName, userEmail, userPassword } = action.payload[0];
-
-      return { ...state, userDataDB: { userName, userEmail, userPassword } };
+      return { ...state, userDataDB: action.payload };
     },
     setHasAccount: (state, action) => {
       return {
