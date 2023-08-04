@@ -69,7 +69,7 @@ const Favourites = () => {
     return parsedItemDetails;
   });
   const dispatch = useDispatch();
-  console.log(favouritesArray);
+
   useEffect(() => {
     dispatch(setFavouritesDisplayedPodcasts(favouritesArray));
   }, []);

@@ -5,7 +5,7 @@ const AllEpisodesPerSeason = ({ currentSeasonEpisodes }) => {
   const { currentPodcast, currentSeason } = useSelector(
     (state) => state.podcastsReducer
   );
-  console.log(currentPodcast);
+
   return (
     <div>
       <div>
