@@ -11,7 +11,7 @@ import {
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
-  background-color: #242424;
+  background-color: yellow;
   padding: 0.5rem;
   gap: 1rem
   width: 95vw;

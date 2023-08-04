@@ -10,7 +10,7 @@ const LoginContainer = styled.div`
   margin: 0 auto;
   text-align: center;
   color: #fff;
-  padding: 5rem 2rem;
+  padding: 5rem;
 `;
 const LoginForm = styled.form`
   margin-top: 2rem;
@@ -48,10 +48,7 @@ const Login = () => {
   const checkIfSignedup = (e) => {
     e.preventDefault();
     userDataDB.map((user) => {
-      console.log(user);
-      console.log(user.userName, userName);
       if (user.userName === userName && user.userPassword === userPassword) {
-        console.log('details match');
         navigate('/');
         dispatch(setIsLoggedIn(true));
       } else {
